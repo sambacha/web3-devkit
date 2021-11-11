@@ -2,7 +2,7 @@ const devtoolsPorts = {}
 const contentPorts = {}
 
 chrome.runtime.onConnect.addListener((port) => {
-  if (port.name.startsWith('usedapp-panel-')) {
+  if (port.name.startsWith('usedapp-panel-' || 'useweb3-panel-')) {
     const tabId = parseInt(port.name.substring('usedapp-panel-'.length))
     devtoolsPorts[tabId] = port
     function onMessage(message) {
@@ -15,7 +15,7 @@ chrome.runtime.onConnect.addListener((port) => {
       port.onMessage.removeListener(onMessage)
       delete devtoolsPorts[tabId]
     })
-  } else if (port.name === 'usedapp-content') {
+  } else if (port.name === 'usedapp-content' || 'useweb3-content') {
     const tabId = port.sender.tab.id
     contentPorts[tabId] = port
     function onMessage(message) {

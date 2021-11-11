@@ -10,13 +10,14 @@ function detectAndCreate() {
     clearInterval(checkInterval)
     return
   }
-  const code = '!!(window.__USEDAPP_DEVTOOLS_HOOK__.useDApp)'
+  // @note we support useWeb3 and useDapp
+  const code = '!!(window.__WEB3_DEVTOOLS_HOOK__.useWeb3 || window.__USEDAPP_DEVTOOLS_HOOK__.useDApp )'
   chrome.devtools.inspectedWindow.eval(code, function (detected) {
     if (!detected || created) {
       return
     }
     clearInterval(checkInterval)
     created = true
-    chrome.devtools.panels.create('useDApp', 'icons/icon.svg', 'index.html')
+    chrome.devtools.panels.create('useWeb3', 'useDApp', 'icons/icon.svg', 'index.html')
   })
 }
